@@ -10,10 +10,13 @@ def limpar_texto():
     entradaum.delete(0, END)
     entradadois.delete(0, END)
     resultfinal['text'] = ''
+    label_erro['text'] = ''
 
 def somar_tudo():
-    resultfinal['text'] = int(entradaum.get()) + int(entradadois.get())
-      
+    try:
+        resultfinal['text'] = int(entradaum.get()) + int(entradadois.get())
+    except ValueError:
+        label_erro['text'] = 'Valor invalido favor digitar um valor valido' 
 
 valor_texto = StringVar
 label_valorum = Label(janela, width=6, height=1, 
@@ -45,6 +48,10 @@ botao_igual.grid(row=3, column=0, pady=2)
 botao_limpar = Button(janela, command=limpar_texto, width=8, text='C', font='Arial 15 bold', 
                       relief=SOLID, bg='green', fg='white')
 botao_limpar.grid(row=4, column=0, pady=2)
+
+label_erro = Label(janela, text='', 
+                           font='Arial 10 bold')
+label_erro.place(x=10, y=200)
 
 
 janela.mainloop()
