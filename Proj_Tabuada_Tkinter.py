@@ -5,13 +5,10 @@ janela_tabuada.title('Tabuada')
 janela_tabuada.geometry('300x260+500+300')
 janela_tabuada.config(bg='light gray')
 
-label_saida = StringVar
-
 def limpar_texto():
     entrada_label.delete(0, END)
     label_erro['text'] = ''
-    label_saida['text'] = ''
-    
+        
 def botao_calcular():
     try:
         entrada = int(entrada_label.get())
