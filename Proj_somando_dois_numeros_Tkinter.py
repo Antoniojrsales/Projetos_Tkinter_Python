@@ -1,24 +1,31 @@
+#Biblioteca#
 from tkinter import *
 
+#Criando a Janela no Tkinter#
 janela = Tk()
 janela.title('Somando dois numeros')
 janela.geometry('300x250')
 janela.config(bg='light gray')
 janela.resizable(width=False, height=False)
 
+#Funcao para Limpar os dados digitados#
 def limpar_texto():
     entradaum.delete(0, END)
     entradadois.delete(0, END)
     resultfinal['text'] = ''
     label_erro['text'] = ''
 
+#Funcao para somar os valores#
 def somar_tudo():
     try:
         resultfinal['text'] = int(entradaum.get()) + int(entradadois.get())
     except ValueError:
         label_erro['text'] = 'Valor invalido favor digitar um valor valido' 
 
+#Variavel para informar qual o tipo de entrada#
 valor_texto = StringVar
+
+#Criando as Labels os Botoes e as Caixas de entradas#
 label_valorum = Label(janela, width=6, height=1, 
                text='1 Valor: ', font='Arial 15 bold', padx=7, bg='light gray', justify=RIGHT)
 label_valorum.grid(row=0, column=0, pady=2)
@@ -52,6 +59,5 @@ botao_limpar.grid(row=4, column=0, pady=2)
 label_erro = Label(janela, text='', 
                            font='Arial 10 bold')
 label_erro.place(x=10, y=200)
-
 
 janela.mainloop()
