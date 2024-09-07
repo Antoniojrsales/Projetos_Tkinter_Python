@@ -1,6 +1,5 @@
 #Biblioteca#
 from tkinter import *
-from tkinter import ttk
 
 #Criando a Janela no Tkinter#
 janela = Tk()
