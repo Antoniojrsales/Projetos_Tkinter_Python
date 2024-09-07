@@ -1,80 +1,69 @@
-from tkinter import  *
+from tkinter import *
 
+# Configuração da janela principal
 janela = Tk()
-janela.title("Calculadora_Tkinter")
-janela.resizable(False,False)
+janela.title("Calculadora Tkinter")  # Define o título da janela
+janela.resizable(True, True)  # Permite o redimensionamento da janela
 
+# Variável global para armazenar todos os valores digitados
 todos_valores = ''
 
+# Função para adicionar valores ao visor
 def entrar_valores(event):
     global todos_valores
-    todos_valores += str(event)
-    valor_texto.set(todos_valores)
+    todos_valores += str(event)  # Adiciona o valor ao string de valores
+    valor_texto.set(todos_valores)  # Atualiza o visor com o valor atual
 
+# Função para limpar o visor
 def limpar_valores():
     global todos_valores
-    todos_valores = ''
-    valor_texto.set('')
+    todos_valores = ''  # Limpa o string de valores
+    valor_texto.set('')  # Atualiza o visor para vazio
 
-def calcular(event):
+# Função para calcular o resultado
+def calcular():
     global todos_valores
-    resultado = eval(todos_valores)
-    valor_texto.set(str(resultado))
-    
+    try:
+        # Avalia a expressão aritmética usando a função eval
+        resultado = eval(todos_valores)
+        valor_texto.set(str(resultado))  # Atualiza o visor com o resultado
+        todos_valores = str(resultado)  # Armazena o resultado para cálculos subsequentes
+    except Exception as e:
+        valor_texto.set("Erro")  # Mostra "Erro" em caso de entrada inválida
+        todos_valores = ''  # Reseta a expressão
 
 # Criando widgets
-valor_texto = StringVar()
+valor_texto = StringVar()  # Variável para armazenar o texto a ser exibido no visor
 
-widget_entrada = Label(janela, textvariable=valor_texto, width=30,height=3, bg='gray', font=('Ivy 17'), 
+# Visor da calculadora
+widget_entrada = Label(janela, textvariable=valor_texto, bg='gray', font=('Ivy 17'), 
                        padx=7, relief=FLAT, anchor='e', justify=RIGHT)
-widget_entrada.grid(row=0, column=0, columnspan=10)
+widget_entrada.grid(row=0, column=0, columnspan=4, sticky="nsew")  # O argumento sticky permite o redimensionamento
 
-widget1 = Button(janela, command= lambda:entrar_valores('7'), text="7", width=10, bg='yellow', font=('Ivy 13'))
-widget1.grid(row=2, column=1)
+# Configurando o redimensionamento para as linhas e colunas
+janela.grid_rowconfigure(0, weight=1)  # Permite o redimensionamento do visor
+for i in range(1, 6):  # Configura o redimensionamento das linhas de botões
+    janela.grid_rowconfigure(i, weight=1)
+    janela.grid_columnconfigure(i-1, weight=1)  # Configura o redimensionamento das colunas de botões
 
-widget2 = Button(janela, command= lambda:entrar_valores('8'), text="8", width=10, bg='yellow', font=('Ivy 13'))
-widget2.grid(row=2, column=2)
+# Botões da calculadora
+botoes = [
+    ('7', 2, 0), ('8', 2, 1), ('9', 2, 2), ('-', 2, 3),
+    ('4', 3, 0), ('5', 3, 1), ('6', 3, 2), ('+', 3, 3),
+    ('1', 4, 0), ('2', 4, 1), ('3', 4, 2), ('/', 4, 3),
+    ('C', 5, 0), ('0', 5, 1), ('=', 5, 2), ('*', 5, 3)
+]
 
-widget3 = Button(janela, command= lambda:entrar_valores('9'), text="9", width=10, bg='yellow', font=('Ivy 13'))
-widget3.grid(row=2, column=3)
+# Criação dos botões dinamicamente
+for (texto, linha, coluna) in botoes:
+    if texto == 'C':
+        btn = Button(janela, command=limpar_valores, text=texto, bg='green', font=('Ivy 13'))
+    elif texto == '=':
+        btn = Button(janela, command=calcular, text=texto, bg='red', font=('Ivy 13'))
+    else:
+        btn = Button(janela, command=lambda txt=texto: entrar_valores(txt), text=texto,
+                     bg='yellow' if texto.isdigit() else 'red', font=('Ivy 13'))
+    btn.grid(row=linha, column=coluna, sticky="nsew")  # O argumento sticky permite o redimensionamento
 
-widget4 = Button(janela, command= lambda:entrar_valores('-'), text="-", width=11, bg='red', font=('Ivy 13'))
-widget4.grid(row=2, column=4)
-
-widget5 = Button(janela, command= lambda:entrar_valores('4'), text="4", width=10, bg='yellow', font=('Ivy 13'))
-widget5.grid(row=3, column=1)
-
-widget6 = Button(janela, command= lambda:entrar_valores('5'), text="5", width=10, bg='yellow', font=('Ivy 13'))
-widget6.grid(row=3, column=2)
-
-widget7 = Button(janela, command= lambda:entrar_valores('6'), text="6", width=10, bg='yellow', font=('Ivy 13'))
-widget7.grid(row=3, column=3)
-
-widget8 = Button(janela, command= lambda:entrar_valores('+'),text="+", width=11, bg='red', font=('Ivy 13'))
-widget8.grid(row=3, column=4)
-
-widget9 = Button(janela, command= lambda:entrar_valores('1'), text="1", width=10, bg='yellow', font=('Ivy 13'))
-widget9.grid(row=4, column=1)
-
-widget10 = Button(janela, command= lambda:entrar_valores('2'), text="2",width=10, bg='yellow', font=('Ivy 13'))
-widget10.grid(row=4, column=2)
-
-widget11 = Button(janela, command= lambda:entrar_valores('3'), text="3",width=10, bg='yellow', font=('Ivy 13'))
-widget11.grid(row=4, column=3)
-
-widget12 = Button(janela, command= lambda:entrar_valores('/'),text="/",width=11, bg='red', font=('Ivy 13'))
-widget12.grid(row=4, column=4)
-
-widget13 = Button(janela, command= limpar_valores, text="C",width=10, bg='green', font=('Ivy 13'))
-widget13.grid(row=5, column=1)
-
-widget14 = Button(janela, command= lambda:entrar_valores('0'), text="0",width=10, bg='yellow', font=('Ivy 13'))
-widget14.grid(row=5, column=2)
-
-widget15 = Button(janela, command=lambda:calcular('='), text="=",width=10, bg='red', font=('Ivy 13'))
-widget15.grid(row=5, column=3)
-
-widget16 = Button(janela, command= lambda:entrar_valores('*'),text="*",width=11, bg='red', font=('Ivy 13'))
-widget16.grid(row=5, column=4)
-
+# Inicia o loop principal da interface gráfica
 janela.mainloop()
